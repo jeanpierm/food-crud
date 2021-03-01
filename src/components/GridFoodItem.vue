@@ -26,13 +26,53 @@ export default {
   },
   methods: {
     ...mapActions(["setEditForm"]),
+
     async deleteFood() {
-      console.log("Deleting food...");
-      const url = `http://localhost:8081/food/${this.aliment.id}`;
-      await fetch(url, {
-        method: "DELETE",
-      }).catch((error) => console.error("Error:", error));
-      this.$emit("fetch-food");
+      const swalWithBootstrapButtons = this.$swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-success",
+          cancelButton: "btn btn-danger",
+        },
+        buttonsStyling: false,
+      });
+
+      swalWithBootstrapButtons
+        .fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes, delete it!",
+          cancelButtonText: "No, cancel!",
+          reverseButtons: true,
+        })
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            // delete a register
+            console.log("Deleting food...");
+            const url = `http://localhost:8081/food/${this.aliment.id}`;
+            await fetch(url, {
+              method: "DELETE",
+            }).catch((error) => console.error("Error:", error));
+            this.$emit("fetch-food");
+
+            // sweet alert
+            swalWithBootstrapButtons.fire(
+              "Deleted!",
+              `The ${this.aliment.name} has been deleted.`,
+              "success"
+            );
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            swalWithBootstrapButtons.fire(
+              "Cancelled",
+              `The ${this.aliment.name} is safe :)`,
+              "error"
+            );
+          }
+        });
     },
   },
   computed: {

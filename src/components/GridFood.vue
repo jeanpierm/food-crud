@@ -3,9 +3,7 @@
     <div class="d-flex mt-5 mb-4 justify-content-center">
       <h1 class="text-center mr-3">Food CRUD</h1>
       <FormFoodButton variant="success" text="Create" />
-      <FormFoodModal
-        @save-food="alimentSelected.id ? updateFood() : insertFood()"
-      />
+      <FormFoodModal @save-food="saveFood()" />
     </div>
     <div v-if="food.length">
       <table class="table text-center table-sm border">
@@ -19,11 +17,7 @@
           </tr>
         </thead>
         <tbody v-for="aliment in food" :key="aliment.id">
-          <GridFoodItem
-            @fetch-food="fetchFood()"
-            :aliment="aliment"
-            :setEditForm="setEditForm"
-          />
+          <GridFoodItem @fetch-food="fetchFood()" :aliment="aliment" />
         </tbody>
       </table>
     </div>
@@ -107,6 +101,24 @@ export default {
       })
         .then(() => this.fetchFood())
         .catch((error) => console.error("Error:", error));
+    },
+
+    saveFood() {
+      if (this.alimentSelected.id) {
+        this.updateFood();
+        this.swalSuccess("modified");
+      } else {
+        this.insertFood();
+        this.swalSuccess("added");
+      }
+    },
+
+    swalSuccess(actionName) {
+      this.$swal.fire(
+        `Food ${actionName} succesfully!`,
+        `The ${this.alimentSelected.name} has been ${actionName}.`,
+        "success"
+      );
     },
   },
   computed: {
