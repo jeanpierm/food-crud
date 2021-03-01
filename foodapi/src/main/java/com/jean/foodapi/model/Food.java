@@ -2,12 +2,14 @@ package com.jean.foodapi.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class Food {
 
 	@Id
+	@GeneratedValue
 	private int food_id;
 	@Column(length = 50)
 	private String food_name;

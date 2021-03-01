@@ -6,7 +6,7 @@
       <FormFoodModal @save-food="saveFood()" />
     </div>
     <div v-if="food.length">
-      <table class="table text-center table-sm border">
+      <table class="table table-hover table-sm border text-center">
         <thead class="thead-light">
           <tr>
             <th scope="col">ID</th>
