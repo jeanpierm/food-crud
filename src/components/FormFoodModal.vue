@@ -5,11 +5,12 @@
       :title="
         alimentSelected.id ? 'Food #' + alimentSelected.id : 'Insert a food'
       "
-      @ok="$emit('save-food')"
+      @ok="handleOk"
     >
       <div class="form-group">
         <label for="name">Name</label>
         <input
+          required
           type="text"
           class="form-control"
           id="name"
@@ -20,6 +21,7 @@
         <div class="form-group col-md-6">
           <label for="stock">Stock</label>
           <input
+            required
             type="number"
             class="form-control"
             id="stock"
@@ -29,6 +31,7 @@
         <div class="form-group col-md-6">
           <label for="price">Price</label>
           <input
+            required
             type="number"
             class="form-control"
             id="price"
@@ -45,6 +48,21 @@ import { mapState } from "vuex";
 
 export default {
   name: "FormFood",
+  methods: {
+    handleOk(bvModalEvt) {
+      if (
+        this.alimentSelected.name &&
+        this.alimentSelected.stock &&
+        this.alimentSelected.price
+      ) {
+        // Trigger submit handler
+        this.$emit("save-food");
+      } else {
+        // Prevent modal from closing
+        bvModalEvt.preventDefault();
+      }
+    },
+  },
   computed: {
     ...mapState(["alimentSelected"]),
   },

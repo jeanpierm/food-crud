@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td>{{ aliment.id }}</td>
+    <th scope="col">{{ aliment.id }}</th>
     <td>{{ aliment.name }}</td>
     <td>{{ aliment.stock }}</td>
     <td>{{ aliment.price }}</td>
