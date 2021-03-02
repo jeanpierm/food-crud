@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jean.foodapi.model.Food;
-import com.jean.foodapi.repo.IFoodRepo;
+import com.jean.foodapi.entity.Food;
+import com.jean.foodapi.repository.IFoodRepo;
+import com.jean.foodapi.service.FoodService;
 
 @CrossOrigin
 @RequestMapping("/food")
@@ -25,52 +26,30 @@ import com.jean.foodapi.repo.IFoodRepo;
 public class FoodController {
 
 	@Autowired
-	private IFoodRepo repo;
+	private FoodService service;
 
 	@GetMapping
 	public List<Food> list() {
-		return repo.findAll();
+		return service.list();
 	}
-
-//	@GetMapping("/{id}")
-//	public ResponseEntity<Food> get(@PathVariable Integer id) {
-//		Optional<Food> optionalFood = repo.findById(id);
-//		if (!optionalFood.isPresent()) {
-//			return ResponseEntity.ok(optionalFood.get());
-//		return ResponseEntity.noContent().build();
-//	
-//	}
 	
 	@GetMapping("/{id}")
 	public Optional<Food> get(@PathVariable Integer id) {
-		return repo.findById(id);
+		return service.get(id);
 	}
-	
-//	@GetMapping("/{id}")
-//	public Food retrieve(@PathVariable Integer id) {
-//		Optional<Food> food = repo.findById(id);
-//		if (!food.isPresent())
-//			throw new FoodNotFoundException("id-" + id);
-//		return food.get();
-//	}
 	
 	@PostMapping
 	public void insert(@RequestBody Food food) {
-		repo.save(food);
+		service.insert(food);
 	}
 	
 	@PutMapping
 	public void update(@RequestBody Food food) {
-		repo.save(food);
+		service.update(food);
 	}
 	
 	@DeleteMapping(value = "/{id}")
 	public void delete(@PathVariable Integer id) {
-		repo.deleteById(id);
+		service.delete(id);
 	}
-	
-//	@DeleteMapping
-//	public void delete(@RequestBody Integer id) {
-//		repo.deleteById(id);
-//	}
 }
