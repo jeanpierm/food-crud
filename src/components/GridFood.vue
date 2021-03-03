@@ -46,7 +46,7 @@ export default {
 
     async fetchFood() {
       const food = [];
-
+      this.food = food;
       console.log("Fetching food...");
       const url = "http://localhost:8081/food";
       const response = await fetch(url, {
@@ -69,7 +69,7 @@ export default {
     async insertFood() {
       console.log("Creating a food...");
       const url = "http://localhost:8081/food";
-      await fetch(url, {
+      fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -86,14 +86,13 @@ export default {
 
     async updateFood() {
       console.log("Updating a food...");
-      const url = "http://localhost:8081/food";
-      await fetch(url, {
+      const url = `http://localhost:8081/food/${this.alimentSelected.id}`;
+      fetch(url, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          food_id: this.alimentSelected.id,
           food_name: this.alimentSelected.name,
           food_stock: this.alimentSelected.stock,
           food_price: this.alimentSelected.price,
